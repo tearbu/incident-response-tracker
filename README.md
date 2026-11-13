@@ -1,21 +1,10 @@
 # Incident Response Tracker
 
-A command-line incident tracker written in Python against SQLite — no
-dependencies beyond the standard library. It records security incidents
-with severity, category, and opened / first-response / closed timestamps,
-and reports the metrics an incident review actually asks for: counts by
-severity and status, mean time to respond, mean time to resolve, and the
-open incidents that have been sitting too long.
+A command-line incident tracker written in Python against SQLite, with no dependencies beyond the standard library. It records security incidents with severity, category, and opened / first-response / closed timestamps, and reports the metrics an incident review actually asks for: counts by severity and status, mean time to respond, mean time to resolve, and the open incidents that have been sitting too long.
 
 ## Why this matters
 
-Incident response lives or dies on tracking. During an incident, notes are
-in chat threads and people's heads; afterwards, leadership asks three
-questions — how fast did we respond, how long did it take to close, and
-what is still open? A tracker like this is the smallest tool that answers
-all three honestly. It is deliberately boring technology (one file, one
-SQLite database) because the tool you can run anywhere, back up by copying
-one file, and read without a server is the tool that actually gets used.
+Incident response lives or dies on tracking. During an incident, notes are in chat threads and people's heads. Afterwards, leadership asks three questions: how fast did we respond, how long did it take to close, and what is still open? A tracker like this is the smallest tool that answers all three honestly. It is deliberately boring technology (one file, one SQLite database), because the tool you can run anywhere, back up by copying one file, and read without a server is the tool that actually gets used.
 
 ## Repository layout
 
@@ -36,8 +25,7 @@ python3 src/ir_tracker.py close 3 --closed 2026-11-04 --resolution "..."
 python3 src/ir_tracker.py report
 ```
 
-Severities are P1 (critical) through P4 (low). Dates are `YYYY-MM-DD`.
-The database path defaults to `./ir.db` and can be changed with `--db`.
+Severities are P1 (critical) through P4 (low). Dates are `YYYY-MM-DD`. The database path defaults to `./ir.db` and can be changed with `--db`.
 
 ## Demo (actual run)
 
@@ -90,21 +78,15 @@ Open incidents older than 7 days:
   #5 [P3] Dormant vendor account attempted sign-in (opened 2026-10-28, 13 days open)
 ```
 
-The report's "as of" date is the latest date present in the data (not the
-wall clock), so the seeded demo prints identical numbers on any day.
+The report's "as of" date is the latest date present in the data (not the wall clock), so the seeded demo prints identical numbers on any day.
 
 ## Limitations (honest ones)
 
-- **Day-level granularity.** Timestamps are dates, not datetimes, so
-  response times under a day all read as 0. Fine for trend reporting, too
-  coarse for measuring a live incident bridge.
-- **Single user, local file.** SQLite is not a shared ticketing system —
-  no assignments, notifications, SLA timers, or audit trail of edits.
-- **Categories are free text.** Nothing stops "phishing" and "Phishing"
-  from becoming two categories; a real deployment would want a fixed list.
-- Closing an incident requires a resolution note by design — that is a
-  feature, but it means there is no quick "close as duplicate" path.
+- **Day-level granularity.** Timestamps are dates, not datetimes, so response times under a day all read as 0. Fine for trend reporting, too coarse for measuring a live incident bridge.
+- **Single user, local file.** SQLite is not a shared ticketing system. No assignments, notifications, SLA timers, or audit trail of edits.
+- **Categories are free text.** Nothing stops "phishing" and "Phishing" from becoming two categories; a real deployment would want a fixed list.
+- Closing an incident requires a resolution note by design. That is a feature, but it means there is no quick "close as duplicate" path.
 
 ## License
 
-MIT — see [LICENSE](LICENSE). Copyright (c) 2026 Araf Abubakar.
+MIT. See [LICENSE](LICENSE). Copyright (c) 2026 Araf Abubakar.
